@@ -1,6 +1,6 @@
 # HOTEL
 TD prog2
-STD25072 Rabeson Maminiaina Tiavina Andy
+STD25072 RABESON Maminiaina Tiavina Andy
 STD25076
-STD2507X
+STD25078 RAHARISETA Tsiresy Riantsoa
 STD250XX
