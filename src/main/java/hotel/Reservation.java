@@ -16,44 +16,26 @@ public class Reservation {
         this.finResa = finResa;
     }
 
-    public Client getClient() {
-        return client;
-    }
+    public Client getClient() { return client; }
+    public void setClient(Client client) { this.client = client; }
 
-    public void setClient(Client client) {
-        this.client = client;
-    }
+    public Chambre getChambre() { return chambre; }
+    public void setChambre(Chambre chambre) { this.chambre = chambre; }
 
-    public Chambre getChambre() {
-        return chambre;
-    }
+    public LocalDateTime getDebutResa() { return debutResa; }
+    public void setDebutResa(LocalDateTime debutResa) { this.debutResa = debutResa; }
 
-    public void setChambre(Chambre chambre) {
-        this.chambre = chambre;
-    }
-
-    public LocalDateTime getDebutResa() {
-        return debutResa;
-    }
-
-    public void setDebutResa(LocalDateTime debutResa) {
-        this.debutResa = debutResa;
-    }
-
-    public LocalDateTime getFinResa() {
-        return finResa;
-    }
-
-    public void setFinResa(LocalDateTime finResa) {
-        this.finResa = finResa;
-    }
+    public LocalDateTime getFinResa() { return finResa; }
+    public void setFinResa(LocalDateTime finResa) { this.finResa = finResa; }
 
     public double calculePrixAPayer(){
-        double montantTotal ;
-        long Nombrejour = ChronoUnit.DAYS.between(debutResa, finResa);
-        double prixChambre = chambre.getPrix();
-        montantTotal = Nombrejour * prixChambre ;
-        return montantTotal;
+        long nombreNuits = ChronoUnit.DAYS.between(debutResa.toLocalDate(), finResa.toLocalDate());
+
+        if (nombreNuits <= 0) {
+            nombreNuits = 1;
+        }
+
+        return nombreNuits * chambre.getPrix();
     }
 
     public boolean chevauche(LocalDateTime debut, LocalDateTime fin) {
