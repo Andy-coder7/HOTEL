@@ -40,73 +40,69 @@ class HotelTest {
 
 
     @Test
-    void calculePrixAPayer_PlusieursNuits() {
-        Reservation reservation = new Reservation(client, chambre1, debut, fin);
+    void prixPourPlusieursNuits() {
+        var reservation = new Reservation(client, chambre1, debut, fin);
         assertEquals(400.0, reservation.calculePrixAPayer());
     }
 
     @Test
-    void calculePrixAPayer_uneSeuleNuit() {
-        Reservation reservation = new Reservation(client, chambre1, LocalDateTime.of(2026, 7, 1, 14, 0),             LocalDateTime.of(2026, 7, 2, 11, 0));
+    void prixPourUneNuit() {
+        var reservation = new Reservation(client, chambre1, LocalDateTime.of(2026, 7, 1, 14, 0), LocalDateTime.of(2026, 7, 2, 11, 0));
         assertEquals(100.0, reservation.calculePrixAPayer());
     }
 
 
     @Test
-    void chevauche_PeriodesIdentiques() {
-        Reservation reservation = new Reservation(client, chambre1, debut, fin);
+    void chevauchePeriodesIdentiques() {
+        var reservation = new Reservation(client, chambre1, debut, fin);
         assertTrue(reservation.chevauche(debut, fin));
     }
 
     @Test
-    void chevauche_PeriodesPartiellementCroisees() {
-        Reservation reservation = new Reservation(client, chambre1, debut, fin);
-        LocalDateTime nouveauDebut = LocalDateTime.of(2026, 7, 3, 14, 0);
-        LocalDateTime nouveauFin = LocalDateTime.of(2026, 7, 10, 11, 0);
+    void chevauchePeriodesQuiSeCroisent() {
+        var reservation = new Reservation(client, chambre1, debut, fin);
+        var nouveauDebut = LocalDateTime.of(2026, 7, 3, 14, 0);
+        var nouveauFin = LocalDateTime.of(2026, 7, 10, 11, 0);
         assertTrue(reservation.chevauche(nouveauDebut, nouveauFin));
     }
 
-
-
     @Test
-    void chevauche_PeriodeEnglobee() {
-        Reservation reservation = new Reservation(client, chambre1, debut, fin);
-        LocalDateTime nouveauDebut = LocalDateTime.of(2026, 7, 2, 14, 0);
-        LocalDateTime nouveauFin = LocalDateTime.of(2026, 7, 3, 11, 0);
+    void chevaucheperiodeIncluse() {
+        var reservation = new Reservation(client, chambre1, debut, fin);
+        var nouveauDebut = LocalDateTime.of(2026, 7, 2, 14, 0);
+        var nouveauFin = LocalDateTime.of(2026, 7, 3, 11, 0);
         assertTrue(reservation.chevauche(nouveauDebut, nouveauFin));
     }
 
-
     @Test
-    void chevauche_PeriodeApres() {
-        Reservation reservation = new Reservation(client, chambre1, debut, fin);
-        LocalDateTime nouveauDebut = LocalDateTime.of(2026, 8, 1, 14, 0);
-        LocalDateTime nouveauFin = LocalDateTime.of(2026, 8, 5, 11, 0);
+    void neChevauchePasperiodeApres() {
+        var reservation = new Reservation(client, chambre1, debut, fin);
+        var nouveauDebut = LocalDateTime.of(2026, 8, 1, 14, 0);
+        var nouveauFin = LocalDateTime.of(2026, 8, 5, 11, 0);
         assertFalse(reservation.chevauche(nouveauDebut, nouveauFin));
     }
 
     @Test
-    void chevauche_PeriodeContigueSansChevauchement() {
-        Reservation reservation = new Reservation(client, chambre1, debut, fin);
-        LocalDateTime nouveauDebut = fin;
-        LocalDateTime nouveauFin = LocalDateTime.of(2026, 7, 10, 11, 0);
+    void neChevauchePasPeriodeContigue() {
+        var reservation = new Reservation(client, chambre1, debut, fin);
+        var nouveauDebut = fin;
+        var nouveauFin = LocalDateTime.of(2026, 7, 10, 11, 0);
         assertFalse(reservation.chevauche(nouveauDebut, nouveauFin));
     }
 
 
     @Test
-    void ajouterReservation_ajouteBienALaListe() {
-        Reservation reservation = new Reservation(client, chambre1, debut, fin);
+    void ajouterReservationDansLaListe() {
+        var reservation = new Reservation(client, chambre1, debut, fin);
         hotel.ajouterReservation(reservation);
 
         assertEquals(1, hotel.getListeReservation().size());
         assertTrue(hotel.getListeReservation().contains(reservation));
     }
 
-
     @Test
-    void annulerReservation_retourneVraiEtRetireDeLaListe() {
-        Reservation reservation = new Reservation(client, chambre1, debut, fin);
+    void annulerReservationExistante() {
+        var reservation = new Reservation(client, chambre1, debut, fin);
         hotel.ajouterReservation(reservation);
 
         boolean resultat = hotel.annulerReservation(reservation);
@@ -116,16 +112,15 @@ class HotelTest {
     }
 
     @Test
-    void annulerReservation_retourneFauxQuandReservationInexistante() {
-        Reservation reservation = new Reservation(client, chambre1, debut, fin);
-        // jamais ajoutée
+    void annulerReservationInexistante() {
+        var reservation = new Reservation(client, chambre1, debut, fin);
         boolean resultat = hotel.annulerReservation(reservation);
         assertFalse(resultat);
     }
 
     @Test
-    void annulerReservation_libereLaChambrePourChambresLibres() {
-        Reservation reservation = new Reservation(client, chambre1, debut, fin);
+    void annulerReservationLibereLaChambre() {
+        var reservation = new Reservation(client, chambre1, debut, fin);
         hotel.ajouterReservation(reservation);
 
         assertFalse(hotel.chambresLibres(2, debut, fin).contains(chambre1));
@@ -137,14 +132,14 @@ class HotelTest {
 
 
     @Test
-    void chambresLibres_retourneToutesLesChambresSansReservation() {
+    void chambresLibresSansReservation() {
         List<Chambre> resultat = hotel.chambresLibres(2, debut, fin);
         assertEquals(3, resultat.size());
     }
 
     @Test
-    void chambresLibres_excluLaChambreReservee() {
-        Reservation reservation = new Reservation(client, chambre1, debut, fin);
+    void chambresLibresExclutChambreReservee() {
+        var reservation = new Reservation(client, chambre1, debut, fin);
         hotel.ajouterReservation(reservation);
 
         List<Chambre> resultat = hotel.chambresLibres(2, debut, fin);
@@ -154,18 +149,17 @@ class HotelTest {
     }
 
     @Test
-    void chambresLibres_filtreParCapacitePersonnes() {
+    void chambresLibresFiltreParCapacite() {
         List<Chambre> resultat = hotel.chambresLibres(4, debut, fin);
 
         assertEquals(1, resultat.size());
         assertTrue(resultat.contains(chambre3));
     }
 
-
     @Test
-    void chambresLibres_avecPlusieursReservationsSimultanees() {
-        Reservation reservation1 = new Reservation(client, chambre1, debut, fin);
-        Reservation reservation2 = new Reservation(client, chambre2,
+    void chambresLibresAvecPlusieursReservations() {
+        var reservation1 = new Reservation(client, chambre1, debut, fin);
+        var reservation2 = new Reservation(client, chambre2,
                 LocalDateTime.of(2026, 7, 2, 14, 0),
                 LocalDateTime.of(2026, 7, 3, 11, 0));
         hotel.ajouterReservation(reservation1);
@@ -180,25 +174,25 @@ class HotelTest {
 
 
     @Test
-    void facturation_calculeLeMontantTotalALaCreation() {
-        Reservation reservation = new Reservation(client, chambre1, debut, fin);
-        Facturation facturation = new Facturation(client, reservation, chambre1);
+    void montantTotalCorrectALaCreation() {
+        var reservation = new Reservation(client, chambre1, debut, fin);
+        var facturation = new Facturation(client, reservation, chambre1);
         assertEquals(400.0, facturation.getMontantTotal());
     }
 
     @Test
-    void facturation_nonPayeeParDefaut() {
-        Reservation reservation = new Reservation(client, chambre1, debut, fin);
-        Facturation facturation = new Facturation(client, reservation, chambre1);
+    void nonPayeeParDefaut() {
+        var reservation = new Reservation(client, chambre1, debut, fin);
+        var facturation = new Facturation(client, reservation, chambre1);
 
         assertFalse(facturation.isPaye());
         assertNull(facturation.getModePaiement());
     }
 
     @Test
-    void facturation_payerParCarte() {
-        Reservation reservation = new Reservation(client, chambre1, debut, fin);
-        Facturation facturation = new Facturation(client, reservation, chambre1);
+    void payerParCarte() {
+        var reservation = new Reservation(client, chambre1, debut, fin);
+        var facturation = new Facturation(client, reservation, chambre1);
 
         facturation.payer(ModePaiement.CARTE);
 
@@ -207,9 +201,9 @@ class HotelTest {
     }
 
     @Test
-    void facturation_payerParEspece() {
-        Reservation reservation = new Reservation(client, chambre1, debut, fin);
-        Facturation facturation = new Facturation(client, reservation, chambre1);
+    void payerParEspece() {
+        var reservation = new Reservation(client, chambre1, debut, fin);
+        var facturation = new Facturation(client, reservation, chambre1);
 
         facturation.payer(ModePaiement.ESPECE);
 
@@ -219,7 +213,7 @@ class HotelTest {
 
 
     @Test
-    void modePaiement_contientCarteEtEspece() {
+    void modePaiementContientCarteEtEspece() {
         assertEquals(2, ModePaiement.values().length);
         assertNotNull(ModePaiement.valueOf("CARTE"));
         assertNotNull(ModePaiement.valueOf("ESPECE"));

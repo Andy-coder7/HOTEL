@@ -4,11 +4,10 @@ package hotel;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.Setter;
+
 
 @AllArgsConstructor
 @Getter
-@Setter
 @EqualsAndHashCode
 public class Facturation {
     private Reservation reservation;
@@ -22,8 +21,16 @@ public class Facturation {
         this.paye = false;
     }
 
+    /////////////////////
+    ///
+    ///
+    // ATO MISY OVAINA EEEEEEEEE /////
+    //
+    //
+    // /
 
     public void payer(ModePaiement modePaiement) {
+        //ito méthode ito tokony ampiana oe ra cash de ok fa ra carte de mila référence transaction
         this.modePaiement = modePaiement;
         this.paye = true;
     }

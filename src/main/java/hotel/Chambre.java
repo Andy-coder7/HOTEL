@@ -13,7 +13,7 @@ import java.util.Objects;
 @EqualsAndHashCode
 public class Chambre {
     private int id;
-    private boolean statut;
+    private boolean statut;   //liste de reservation ny tokony eto mba ahitana oe libre ve sa tsia izy
     private double prix;
     private TypeChambre typeChambre;
     private int quantitePersonne;
