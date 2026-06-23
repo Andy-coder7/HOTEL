@@ -1,5 +1,15 @@
 package hotel;
 
+
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+
+@AllArgsConstructor
+@Getter
+@Setter
+@EqualsAndHashCode
 public class Facturation {
     private Reservation reservation;
     private double montantTotal;
@@ -12,21 +22,6 @@ public class Facturation {
         this.paye = false;
     }
 
-    public Reservation getReservation() {
-        return reservation;
-    }
-
-    public double getMontantTotal() {
-        return montantTotal;
-    }
-
-    public ModePaiement getModePaiement() {
-        return modePaiement;
-    }
-
-    public boolean isPaye() {
-        return paye;
-    }
 
     public void payer(ModePaiement modePaiement) {
         this.modePaiement = modePaiement;

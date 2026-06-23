@@ -183,7 +183,6 @@ class HotelTest {
     void facturation_calculeLeMontantTotalALaCreation() {
         Reservation reservation = new Reservation(client, chambre1, debut, fin);
         Facturation facturation = new Facturation(client, reservation, chambre1);
-        // 4 nuits * 100.0 = 400.0
         assertEquals(400.0, facturation.getMontantTotal());
     }
 

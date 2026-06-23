@@ -1,32 +1,24 @@
 package hotel;
 
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
+
+@AllArgsConstructor
+@Getter
+@Setter
+@EqualsAndHashCode
 public class Reservation {
     private Client client;
     private Chambre chambre;
     private LocalDateTime debutResa;
     private LocalDateTime finResa;
 
-    public Reservation(Client client, Chambre chambre, LocalDateTime debutResa, LocalDateTime finResa) {
-        this.client = client;
-        this.chambre = chambre;
-        this.debutResa = debutResa;
-        this.finResa = finResa;
-    }
-
-    public Client getClient() { return client; }
-    public void setClient(Client client) { this.client = client; }
-
-    public Chambre getChambre() { return chambre; }
-    public void setChambre(Chambre chambre) { this.chambre = chambre; }
-
-    public LocalDateTime getDebutResa() { return debutResa; }
-    public void setDebutResa(LocalDateTime debutResa) { this.debutResa = debutResa; }
-
-    public LocalDateTime getFinResa() { return finResa; }
-    public void setFinResa(LocalDateTime finResa) { this.finResa = finResa; }
 
     public double calculePrixAPayer(){
         long nombreNuits = ChronoUnit.DAYS.between(debutResa.toLocalDate(), finResa.toLocalDate());
